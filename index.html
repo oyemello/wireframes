@@ -73,13 +73,9 @@ html, body {
 }
 #theme-toggle:hover { background: #e5e5e5; }
 
-/* ── TAB PANELS ── */
+/* ── CANVAS ── */
 #tab-panels { flex: 1; min-height: 0; position: relative; }
-.tab-panel { position: absolute; inset: 0; display: none; }
-.tab-panel.active { display: flex; }
-
-/* ── CANVAS TAB ── */
-#tab-canvas { /* flex row by default */ }
+#tab-canvas { position: absolute; inset: 0; display: flex; }
 
 /* Left panel — SVG Library */
 #left-panel {
@@ -265,6 +261,7 @@ body.dark-mode .frame-label { color: #e0e0e0; }
 .layers-empty { padding: 12px; font-size: 12px; color: #a3a3a3; line-height: 1.6; text-align: center; }
 
 
+
 /* Notes pane */
 #notes-pane {
   flex: 1; display: flex; flex-direction: column;
@@ -280,208 +277,22 @@ body.dark-mode .frame-label { color: #e0e0e0; }
 #notes-textarea::placeholder { color: #a3a3a3; }
 
 
-/* ── CHAT TAB ── */
-#tab-chat { flex-direction: column; background: #f4f4f4; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-#chat-canvas {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-end;
-  gap: 10px; padding-bottom: 24px; overflow: hidden; position: relative;
-}
-
-#chat-window {
-  flex: 1; display: flex; align-items: center;
-  justify-content: center; width: 100%; padding: 12px; min-height: 0;
-}
-
-#chat-section {
-  display: flex; flex-direction: column; gap: 10px;
-  width: 900px; max-width: 100%; height: 100%;
-}
-
-#chat-and-input {
-  flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0;
-}
-
-#chat-messages {
-  flex: 1; overflow-y: auto; background: #fff; border-radius: 8px;
-  padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 0;
-}
-#chat-messages::-webkit-scrollbar { width: 4px; }
-#chat-messages::-webkit-scrollbar-track { background: transparent; }
-#chat-messages::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 2px; }
-
-#chat-empty-hint { color: #a3a3a3; font-size: 13px; line-height: 1.7; text-align: center; padding: 40px 24px 0; }
-#chat-empty-hint strong { color: #737373; }
-
-.chat-msg { display: flex; flex-direction: column; gap: 4px; }
-.chat-msg-label { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-.chat-msg.user .chat-msg-label { color: #2563eb; }
-.chat-msg.ai   .chat-msg-label { color: #a3a3a3; }
-.chat-msg-body {
-  font-size: 13px; line-height: 1.6; color: #171717;
-  background: #f5f5f5; border: 1px solid #e5e5e5;
-  border-radius: 8px; padding: 10px 12px;
-  white-space: pre-wrap; word-wrap: break-word; overflow-wrap: anywhere;
-}
-.chat-msg.user .chat-msg-body { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
-.chat-msg-body code {
-  font-family: 'SF Mono','Monaco','Menlo',monospace; font-size: 10.5px;
-  background: #e5e5e5; border-radius: 3px; padding: 1px 4px;
-}
-.chat-msg-body pre {
-  background: #e5e5e5; border-radius: 6px; padding: 10px;
-  overflow-x: auto; margin: 6px 0; font-size: 11px;
-  font-family: 'SF Mono','Monaco','Menlo',monospace; line-height: 1.5;
-}
-.chat-msg-body pre code { background: none; padding: 0; }
-.chat-msg-body.rendered strong { color: #0a0a0a; font-weight: 600; }
-.chat-msg-body.rendered em { color: #525252; }
-
-.chat-typing { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
-.chat-typing span { width: 5px; height: 5px; background: #a3a3a3; border-radius: 50%; animation: typing-bounce 1.2s infinite; }
-.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
-.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes typing-bounce { 0%,80%,100% { transform: translateY(0); opacity: 0.35; } 40% { transform: translateY(-4px); opacity: 1; } }
-
-#chat-reply-row { display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0; }
-
-#chat-reply-input {
-  flex: 1; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px;
-  height: 36px; padding: 7px 12px; font-size: 14px; color: #0a0a0a;
-  resize: none; outline: none; font-family: inherit; line-height: 1.5;
-  max-height: 80px; min-height: 36px; transition: border-color 0.15s;
-}
-#chat-reply-input:focus { border-color: #2563eb; }
-#chat-reply-input::placeholder { color: #a3a3a3; }
-
-#chat-reply-btn {
-  width: 36px; height: 36px; flex-shrink: 0;
-  background: #171717; border: none; border-radius: 8px;
-  color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background 0.12s;
-}
-#chat-reply-btn:hover { background: #262626; }
-#chat-reply-btn:disabled { background: #e5e5e5; color: #a3a3a3; cursor: default; }
-#chat-reply-btn svg { pointer-events: none; }
-
-/* Chat island (Download + Run) */
-#chat-island {
-  background: #fff; border-radius: 10px; padding: 4px;
-  display: flex; align-items: center; gap: 4px; flex-shrink: 0;
-  box-shadow: 0px 7px 2px rgba(0,0,0,0), 0px 5px 2px rgba(0,0,0,.01),
-              0px 3px 2px rgba(0,0,0,.03), 0px 1px 1px rgba(0,0,0,.04),
-              0px 0px 1px rgba(0,0,0,.05);
-}
-
-#download-project-btn {
-  background: #171717; border: none; border-radius: 8px;
+#download-code-btn {
+  background: #16a34a; border: none; border-radius: 8px;
   padding: 8px 16px; min-height: 36px;
   color: #fafafa; font-size: 14px; font-weight: 500;
-  display: flex; align-items: center; gap: 8px; font-family: inherit;
-  opacity: 0.35; cursor: not-allowed; transition: background 0.12s, opacity 0.15s;
-  white-space: nowrap;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  font-family: inherit; white-space: nowrap; transition: background 0.12s;
 }
-#download-project-btn.ready { opacity: 1; cursor: pointer; }
-#download-project-btn.ready:hover { background: #262626; }
-.dp-badge {
-  display: none; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.2); color: #fff; font-size: 9px; font-weight: 700;
-  min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; flex-shrink: 0;
+#download-code-btn:hover { background: #15803d; }
+#download-code-btn svg { flex-shrink: 0; }
+#download-code-badge {
+  background: rgba(255,255,255,0.25); color: #fff; font-size: 9px; font-weight: 700;
+  min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-#download-project-btn.ready .dp-badge { display: inline-flex; }
-
-#run-in-browser-btn {
-  background: #2563eb; border: none; border-radius: 8px;
-  padding: 8px 16px; min-height: 36px;
-  color: #fafafa; font-size: 14px; font-weight: 500;
-  display: flex; align-items: center; gap: 8px; font-family: inherit;
-  opacity: 0.35; cursor: not-allowed; transition: background 0.12s, opacity 0.15s;
-  white-space: nowrap;
-}
-#run-in-browser-btn.ready { opacity: 1; cursor: pointer; }
-#run-in-browser-btn.ready:hover { background: #1d4ed8; }
-#run-in-browser-btn svg { pointer-events: none; flex-shrink: 0; }
-
-/* ── PREVIEW TAB ── */
-#tab-preview { flex-direction: column; background: #fff; }
-
-#browser-chrome {
-  background: #fff; border-bottom: 1px solid #e5e5e5;
-  padding: 8px 12px; display: flex; align-items: center;
-  gap: 8px; flex-shrink: 0; min-height: 52px;
-}
-.browser-nav-btn {
-  width: 30px; height: 30px; background: transparent; border: none; border-radius: 6px;
-  color: #737373; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: background 0.12s;
-}
-.browser-nav-btn:hover { background: #f5f5f5; color: #0a0a0a; }
-.browser-nav-btn:disabled { opacity: 0.35; pointer-events: none; }
-.browser-nav-btn svg { pointer-events: none; }
-
-#browser-url-form {
-  flex: 1; display: flex; align-items: center;
-  background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 8px;
-  overflow: hidden; transition: border-color 0.15s;
-}
-#browser-url-form:focus-within { border-color: #2563eb; }
-#browser-url-icon { padding: 0 8px; color: #a3a3a3; display: flex; align-items: center; flex-shrink: 0; }
-#browser-url-input {
-  flex: 1; background: transparent; border: none;
-  color: #0a0a0a; font-size: 13px; padding: 7px 0; outline: none; font-family: inherit;
-}
-#browser-url-input::placeholder { color: #a3a3a3; }
-#browser-go-btn {
-  background: transparent; color: #737373; cursor: pointer; border: none;
-  padding: 0 10px; font-size: 13px; font-family: inherit;
-  border-left: 1px solid #e5e5e5; height: 100%; transition: background 0.12s;
-}
-#browser-go-btn:hover { background: #e5e5e5; color: #0a0a0a; }
-
-#browser-status-pill {
-  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
-  background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 6px;
-  padding: 5px 10px; font-size: 11px; color: #737373; white-space: nowrap;
-}
-#browser-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #d4d4d4; flex-shrink: 0; }
-#browser-status-pill.connected #browser-status-dot { background: #16a34a; }
-#browser-status-pill.error    #browser-status-dot { background: #dc2626; }
-#browser-status-pill.loading  #browser-status-dot { background: #f59e0b; animation: pulse 1s infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-#browser-frame-wrap { flex: 1; position: relative; overflow: hidden; background: #e5e5e5; }
-#browser-frame { width: 100%; height: 100%; border: none; background: #fff; display: block; }
-
-#browser-empty {
-  position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 16px; color: #737373;
-}
-#browser-empty.hidden { display: none; }
-#browser-empty-icon { color: #d4d4d4; }
-#browser-empty h2 { font-size: 15px; font-weight: 500; color: #525252; }
-#browser-empty p { font-size: 12px; line-height: 1.7; text-align: center; max-width: 340px; color: #737373; }
-#browser-empty code {
-  font-family: 'SF Mono','Monaco','Menlo',monospace;
-  background: #f5f5f5; border: 1px solid #e5e5e5;
-  border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #525252;
-}
-.quick-btns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
-.quick-url-btn {
-  background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 6px;
-  color: #737373; font-size: 11px; padding: 5px 10px; cursor: pointer;
-  font-family: 'SF Mono','Monaco','Menlo',monospace;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
-}
-.quick-url-btn:hover { background: #e5e5e5; color: #0a0a0a; border-color: #2563eb; }
-
-#browser-error {
-  position: absolute; inset: 0; display: none; flex-direction: column;
-  align-items: center; justify-content: center; gap: 12px; color: #737373; background: #f5f5f5;
-}
-#browser-error.visible { display: flex; }
-#browser-error h3 { font-size: 13px; color: #525252; }
-#browser-error p { font-size: 11px; color: #737373; text-align: center; max-width: 300px; line-height: 1.6; }
 
 /* ── TOAST ── */
 #toast {
@@ -547,50 +358,8 @@ body.dark-mode .layers-empty { color: #3a3a3a; }
 body.dark-mode #notes-pane .panel-label { color: #e0e0e0; }
 body.dark-mode #notes-textarea { background: #252525; border-color: #333; color: #e0e0e0; }
 body.dark-mode #notes-textarea::placeholder { color: #444; }
-body.dark-mode #tab-chat { background: #1a1a1a; }
-body.dark-mode #chat-messages { background: #1f1f1f; }
-body.dark-mode #chat-messages::-webkit-scrollbar-thumb { background: #3a3a3a; }
-body.dark-mode #chat-empty-hint { color: #3a3a3a; }
-body.dark-mode #chat-empty-hint strong { color: #555; }
-body.dark-mode .chat-msg.ai .chat-msg-label { color: #555; }
-body.dark-mode .chat-msg-body { background: #252525; border-color: #2e2e2e; color: #d0d0d0; }
-body.dark-mode .chat-msg.user .chat-msg-body { background: #1e1d38; border-color: #3730a3; color: #c7d2fe; }
-body.dark-mode .chat-msg-body code { background: #1a1a1a; }
-body.dark-mode .chat-msg-body pre { background: #1a1a1a; }
-body.dark-mode .chat-msg-body.rendered strong { color: #e0e0e0; }
-body.dark-mode .chat-msg-body.rendered em { color: #aaa; }
-body.dark-mode .chat-typing span { background: #555; }
-body.dark-mode #chat-reply-input { background: #252525; border-color: #333; color: #e0e0e0; }
-body.dark-mode #chat-reply-input::placeholder { color: #444; }
-body.dark-mode #chat-reply-btn { background: #4f46e5; }
-body.dark-mode #chat-reply-btn:hover { background: #4338ca; }
-body.dark-mode #chat-reply-btn:disabled { background: #2a2a2a; color: #444; }
-body.dark-mode #chat-island { background: #252525; }
-body.dark-mode #download-project-btn { background: #fafafa; color: #171717; }
-body.dark-mode #download-project-btn.ready:hover { background: #e5e5e5; }
-body.dark-mode #tab-preview { background: #141414; }
-body.dark-mode #browser-chrome { background: #1a1a1a; border-bottom-color: #2a2a2a; }
-body.dark-mode .browser-nav-btn { color: #555; }
-body.dark-mode .browser-nav-btn:hover { background: #2a2a2a; color: #ccc; }
-body.dark-mode #browser-url-form { background: #252525; border-color: #333; }
-body.dark-mode #browser-url-icon { color: #555; }
-body.dark-mode #browser-url-input { color: #e0e0e0; }
-body.dark-mode #browser-url-input::placeholder { color: #444; }
-body.dark-mode #browser-go-btn { color: #555; border-left-color: #333; }
-body.dark-mode #browser-go-btn:hover { color: #e0e0e0; background: #2e2e2e; }
-body.dark-mode #browser-status-pill { background: #252525; border-color: #333; color: #555; }
-body.dark-mode #browser-status-dot { background: #3a3a3a; }
-body.dark-mode #browser-frame-wrap { background: #0e0e0e; }
-body.dark-mode #browser-empty { color: #737373; }
-body.dark-mode #browser-empty-icon { color: #2a2a2a; }
-body.dark-mode #browser-empty h2 { color: #444; }
-body.dark-mode #browser-empty p { color: #3a3a3a; }
-body.dark-mode #browser-empty code { background: #1f1f1f; border-color: #2e2e2e; color: #888; }
-body.dark-mode .quick-url-btn { background: #1f1f1f; border-color: #2e2e2e; color: #666; }
-body.dark-mode .quick-url-btn:hover { background: #252525; color: #e0e0e0; border-color: #4f46e5; }
-body.dark-mode #browser-error { background: #0e0e0e; }
-body.dark-mode #browser-error h3 { color: #666; }
-body.dark-mode #browser-error p { color: #444; }
+body.dark-mode #download-code-btn { background: #16a34a; }
+body.dark-mode #download-code-btn:hover { background: #15803d; }
 body.dark-mode #toast { background: #2a2a2a; border: 1px solid #3a3a3a; }
 </style>
 </head>
@@ -601,26 +370,6 @@ body.dark-mode #toast { background: #2a2a2a; border: 1px solid #3a3a3a; }
 ============================================================ -->
 <div id="tab-bar">
   <div id="header-left">
-    <button class="tab-btn active" data-tab="canvas">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <path d="M3 9h18M9 21V9"/>
-      </svg>
-      Wireframe
-    </button>
-    <button class="tab-btn" data-tab="chat">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-      </svg>
-      Chat
-    </button>
-    <button class="tab-btn" data-tab="preview">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="9"/>
-        <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
-      </svg>
-      Preview
-    </button>
     <button id="theme-toggle" title="Toggle light/dark mode">
       <svg id="theme-icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
         <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
@@ -734,10 +483,22 @@ body.dark-mode #toast { background: #2a2a2a; border: 1px solid #3a3a3a; }
         </button>
         <div class="island-sep"></div>
         <button id="wf-send-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg id="wf-send-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
           </svg>
-          Generate
+          <svg id="wf-send-spinner" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:none;animation:spin 0.7s linear infinite">
+            <path d="M12 2a10 10 0 0 1 10 10"/>
+          </svg>
+          <span id="wf-send-label">Generate</span>
+        </button>
+        <button id="download-code-btn" style="display:none">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span id="download-code-label">Download Code</span>
+          <span id="download-code-badge"></span>
         </button>
       </div>
     </div>
@@ -762,134 +523,6 @@ body.dark-mode #toast { background: #2a2a2a; border: 1px solid #3a3a3a; }
     </div>
   </div><!-- /tab-canvas -->
 
-  <!-- ── CHAT TAB ── -->
-  <div id="tab-chat" class="tab-panel">
-
-    <div id="chat-canvas">
-
-      <div id="chat-window">
-        <div id="chat-section">
-          <span class="panel-label">Additional Info.</span>
-          <div id="chat-and-input">
-            <div id="chat-messages">
-              <div id="chat-empty-hint">Switch to <strong>Wireframe</strong>, draw something, add notes, then click <strong>Generate</strong>.</div>
-            </div>
-            <div id="chat-reply-row">
-              <textarea id="chat-reply-input" rows="1" placeholder="Follow up…"></textarea>
-              <button id="chat-reply-btn" title="Send reply" disabled>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="chat-island">
-        <button id="download-project-btn" disabled title="Generate code with AI first">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          <span class="dp-label">Download Project</span>
-          <span class="dp-badge">0</span>
-        </button>
-        <button id="run-in-browser-btn" disabled title="Generate code with AI first">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-          Run in Browser
-        </button>
-      </div>
-
-    </div>
-
-  </div><!-- /tab-chat -->
-
-  <!-- ── PREVIEW TAB ── -->
-  <div id="tab-preview" class="tab-panel">
-
-    <!-- Browser chrome -->
-    <div id="browser-chrome">
-
-      <button class="browser-nav-btn" id="browser-back" title="Back" disabled>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-      </button>
-      <button class="browser-nav-btn" id="browser-forward" title="Forward" disabled>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </button>
-      <button class="browser-nav-btn" id="browser-refresh" title="Refresh">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="23 4 23 10 17 10"/>
-          <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
-        </svg>
-      </button>
-
-      <form id="browser-url-form" autocomplete="off">
-        <div id="browser-url-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
-          </svg>
-        </div>
-        <input id="browser-url-input" type="text" placeholder="localhost:3000" spellcheck="false" autocomplete="off">
-        <button type="submit" id="browser-go-btn">Go</button>
-      </form>
-
-      <div id="browser-status-pill">
-        <div id="browser-status-dot"></div>
-        <span id="browser-status-text">No page loaded</span>
-      </div>
-
-    </div><!-- /browser-chrome -->
-
-    <!-- Frame area -->
-    <div id="browser-frame-wrap">
-
-      <!-- Empty state -->
-      <div id="browser-empty">
-        <div id="browser-empty-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <path d="M8 21h8M12 17v4"/>
-          </svg>
-        </div>
-        <h2>Load your dev server</h2>
-        <p>
-          Enter a URL above. Works best with local dev servers —
-          install <code>agentation</code> in your React app to annotate elements
-          and send structured context back to the AI.
-        </p>
-        <div class="quick-btns">
-          <button class="quick-url-btn" data-url="http://localhost:3000">:3000</button>
-          <button class="quick-url-btn" data-url="http://localhost:4000">:4000</button>
-          <button class="quick-url-btn" data-url="http://localhost:5173">:5173</button>
-          <button class="quick-url-btn" data-url="http://localhost:8080">:8080</button>
-        </div>
-      </div>
-
-      <!-- Error state -->
-      <div id="browser-error">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        <h3>Failed to load</h3>
-        <p id="browser-error-msg">The page could not be loaded. Make sure your dev server is running and the URL is correct.</p>
-      </div>
-
-      <!-- The actual frame -->
-      <iframe id="browser-frame" name="preview-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-pointer-lock allow-top-navigation-by-user-activation"></iframe>
-    </div>
-
-  </div><!-- /tab-preview -->
 
 </div><!-- /tab-panels -->
 
@@ -899,18 +532,6 @@ body.dark-mode #toast { background: #2a2a2a; border: 1px solid #3a3a3a; }
 
 
 <script>
-// ============================================================
-//  TAB SWITCHING
-// ============================================================
-const tabBtns = document.querySelectorAll('.tab-btn');
-const tabPanels = document.querySelectorAll('.tab-panel');
-
-function switchToTab(name) {
-  tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-  tabPanels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
-}
-
-tabBtns.forEach(btn => btn.addEventListener('click', () => switchToTab(btn.dataset.tab)));
 
 // ============================================================
 //  THEME TOGGLE
@@ -930,115 +551,6 @@ themeToggle.addEventListener('click', () => setTheme(!document.body.classList.co
 
 try { if (localStorage.getItem('theme') === 'dark') setTheme(true); } catch(e) {}
 
-// ============================================================
-//  BROWSER TAB
-// ============================================================
-const browserFrame   = document.getElementById('browser-frame');
-const browserUrlInput = document.getElementById('browser-url-input');
-const browserUrlForm  = document.getElementById('browser-url-form');
-const browserEmpty    = document.getElementById('browser-empty');
-const browserError    = document.getElementById('browser-error');
-const browserErrorMsg = document.getElementById('browser-error-msg');
-const statusPill      = document.getElementById('browser-status-pill');
-const statusDot       = document.getElementById('browser-status-dot');
-const statusText      = document.getElementById('browser-status-text');
-const backBtn         = document.getElementById('browser-back');
-const fwdBtn          = document.getElementById('browser-forward');
-const refreshBtn      = document.getElementById('browser-refresh');
-
-let browserHistory = [];
-let browserHistoryIdx = -1;
-
-function setStatus(state, text) {
-  statusPill.className = 'browser-status-pill ' + state;
-  statusText.textContent = text;
-}
-
-function normalizeUrl(raw) {
-  raw = raw.trim();
-  if (!raw) return null;
-  if (/^https?:\/\//i.test(raw)) return raw;
-  if (/^localhost/i.test(raw) || /^\d+\.\d+\.\d+\.\d+/.test(raw)) return 'http://' + raw;
-  return 'http://' + raw;
-}
-
-function loadUrl(url) {
-  if (!url) return;
-  browserFrame.style.display = 'none';
-  browserEmpty.classList.add('hidden');
-  browserError.classList.remove('visible');
-  setStatus('loading', 'Loading…');
-  browserUrlInput.value = url;
-
-  // push to history
-  if (browserHistoryIdx < browserHistory.length - 1) {
-    browserHistory = browserHistory.slice(0, browserHistoryIdx + 1);
-  }
-  browserHistory.push(url);
-  browserHistoryIdx = browserHistory.length - 1;
-  updateNavBtns();
-
-  browserFrame.src = url;
-}
-
-function updateNavBtns() {
-  backBtn.disabled  = browserHistoryIdx <= 0;
-  fwdBtn.disabled   = browserHistoryIdx >= browserHistory.length - 1;
-}
-
-browserFrame.addEventListener('load', () => {
-  const src = browserFrame.src;
-  if (!src || src === 'about:blank') return;
-  browserFrame.style.display = 'block';
-  browserError.classList.remove('visible');
-  setStatus('connected', browserUrlInput.value);
-});
-
-browserFrame.addEventListener('error', () => {
-  browserFrame.style.display = 'none';
-  browserError.classList.add('visible');
-  browserErrorMsg.textContent = 'Could not load "' + browserUrlInput.value + '". Check that your dev server is running.';
-  setStatus('error', 'Connection failed');
-});
-
-browserUrlForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const url = normalizeUrl(browserUrlInput.value);
-  if (url) loadUrl(url);
-});
-
-backBtn.addEventListener('click', () => {
-  if (browserHistoryIdx > 0) {
-    browserHistoryIdx--;
-    const url = browserHistory[browserHistoryIdx];
-    browserUrlInput.value = url;
-    browserFrame.src = url;
-    setStatus('loading', 'Loading…');
-    updateNavBtns();
-  }
-});
-
-fwdBtn.addEventListener('click', () => {
-  if (browserHistoryIdx < browserHistory.length - 1) {
-    browserHistoryIdx++;
-    const url = browserHistory[browserHistoryIdx];
-    browserUrlInput.value = url;
-    browserFrame.src = url;
-    setStatus('loading', 'Loading…');
-    updateNavBtns();
-  }
-});
-
-refreshBtn.addEventListener('click', () => {
-  if (browserFrame.src && browserFrame.src !== 'about:blank') {
-    setStatus('loading', 'Loading…');
-    browserFrame.src = browserFrame.src;
-  }
-});
-
-document.querySelectorAll('.quick-url-btn').forEach(btn => {
-  btn.addEventListener('click', () => loadUrl(btn.dataset.url));
-});
 
 // ============================================================
 //  CANVAS — STATE
@@ -1094,22 +606,34 @@ function genName(type, svgName) {
   return 'Shape ' + _typeCounts[type];
 }
 
+function defaultSizeMode(type, svgName) {
+  const name = (svgName || '').toLowerCase();
+  const fills = ['table', 'structured list', 'list', 'pagination', 'tabs', 'grid', 'chart', 'graph', 'canvas', 'map'];
+  if (type === 'circle') return 'hug';
+  if (type === 'svg' && fills.some(k => name.includes(k))) return 'fill';
+  return 'fill';
+}
+
 function getContainment() {
+  // Order-agnostic containment: pick the smallest enclosing frame by area,
+  // so late-added parents still win even if elements were drawn earlier.
   const map = {};
+  const candidateFrames = elements
+    .map((el, idx) => ({ el, idx, area: el.width * el.height }))
+    .filter(c => c.el.type === 'frame' || c.el.type === 'rect' || c.el.type === 'col-rect')
+    .sort((a, b) => (a.area - b.area) || (a.idx - b.idx));
+
   for (const el of elements) {
-    let best = null, bestArea = Infinity, bestIdx = -1;
-    for (let pi = 0; pi < elements.length; pi++) {
-      const p = elements[pi];
-      if (p.id === el.id || (p.type !== 'frame' && p.type !== 'rect' && p.type !== 'col-rect')) continue;
-      const area = p.width * p.height;
-      if (el.x >= p.x && el.y >= p.y &&
-          el.x + el.width  <= p.x + p.width &&
-          el.y + el.height <= p.y + p.height &&
-          (area < bestArea || (area === bestArea && pi > bestIdx))) {
-        best = p; bestArea = area; bestIdx = pi;
-      }
+    let parent = null;
+    for (const c of candidateFrames) {
+      if (c.el.id === el.id) continue;
+      if (
+        el.x >= c.el.x && el.y >= c.el.y &&
+        el.x + el.width  <= c.el.x + c.el.width &&
+        el.y + el.height <= c.el.y + c.el.height
+      ) { parent = c.el; break; }
     }
-    map[el.id] = best ? best.id : null;
+    map[el.id] = parent ? parent.id : null;
   }
   return map;
 }
@@ -1198,11 +722,13 @@ function buildElementDiv(el) {
   const d = document.createElement('div');
   d.className = 'canvas-element';
   d.dataset.id = el.id;
+
   if (el.type === 'frame' || el.type === 'rect' || el.type === 'col-rect') {
     d.classList.add('rect-el');
     const lbl = document.createElement('span');
     lbl.className = 'frame-label';
-    lbl.textContent = el.type === 'rect' ? 'R' : el.type === 'col-rect' ? 'C' : '';
+    const rc = el.type === 'rect' ? 'R' : el.type === 'col-rect' ? 'C' : '';
+    lbl.textContent = rc;
     d.appendChild(lbl);
   }
   if (el.type === 'circle') d.classList.add('circle-el');
@@ -1221,6 +747,11 @@ function positionElementDiv(el, d) {
   d.style.top    = el.y      + 'px';
   d.style.width  = el.width  + 'px';
   d.style.height = el.height + 'px';
+  const lbl = d.querySelector('.frame-label');
+  if (lbl) {
+    const rc = (el.type === 'rect' ? 'R' : el.type === 'col-rect' ? 'C' : '');
+    lbl.textContent = rc;
+  }
 }
 
 function updateSelectionOverlay() {
@@ -1266,6 +797,12 @@ function getSvgSize(content) {
   const h = hs && !hs.includes('%') ? parseFloat(hs) : NaN;
   if (w > 0 && h > 0) return { width: w, height: h };
   return { width: 200, height: 200 };
+}
+
+function ensureSizeDefaults() {
+  for (const el of elements) {
+    if (!el.sizeMode) el.sizeMode = defaultSizeMode(el.type, el.svgName);
+  }
 }
 
 // ============================================================
@@ -1377,7 +914,8 @@ document.addEventListener('mouseup', e => {
       if (currentTool === 'circle') { const s = Math.max(cw, ch); cw = s; ch = s; }
       const _t = currentTool === 'frame' ? 'frame' : currentTool === 'rect' ? 'rect' : currentTool === 'col-rect' ? 'col-rect' : 'circle';
       const el = { id: genId(), type: _t, name: genName(_t),
-                   x: cx, y: cy, width: cw, height: ch, svgContent: null, svgName: null };
+                   x: cx, y: cy, width: cw, height: ch, svgContent: null, svgName: null,
+                   sizeMode: defaultSizeMode(_t) };
       addElement(el); selectElement(el.id);
     }
     drawPreview.style.display = 'none'; drawPreview.className = '';
@@ -1489,7 +1027,7 @@ viewport.addEventListener('drop', e => {
   const maxDim = 300;
   let w = size.width, h = size.height;
   if (w > maxDim || h > maxDim) { const r = Math.min(maxDim / w, maxDim / h); w *= r; h *= r; }
-  const el = { id: genId(), type: 'svg', name: genName('svg', libItem.name), x: cp.x - w / 2, y: cp.y - h / 2, width: w, height: h, svgContent: libItem.content, svgName: libItem.name };
+  const el = { id: genId(), type: 'svg', name: genName('svg', libItem.name), x: cp.x - w / 2, y: cp.y - h / 2, width: w, height: h, svgContent: libItem.content, svgName: libItem.name, sizeMode: defaultSizeMode('svg', libItem.name) };
   addElement(el); selectElement(el.id); dragLibId = null;
 });
 
@@ -1503,7 +1041,7 @@ document.getElementById('svg-single-input').addEventListener('change', e => {
     const maxDim = 300; let w = size.width, h = size.height;
     if (w > maxDim || h > maxDim) { const r = Math.min(maxDim / w, maxDim / h); w *= r; h *= r; }
     const _sn = file.name.replace(/\.svg$/i, '');
-    const el = { id: genId(), type: 'svg', name: genName('svg', _sn), x: cp.x - w / 2, y: cp.y - h / 2, width: w, height: h, svgContent: content, svgName: _sn };
+    const el = { id: genId(), type: 'svg', name: genName('svg', _sn), x: cp.x - w / 2, y: cp.y - h / 2, width: w, height: h, svgContent: content, svgName: _sn, sizeMode: defaultSizeMode('svg', _sn) };
     addElement(el); selectElement(el.id);
     addToLibrary(_sn, content);
   };
@@ -1561,6 +1099,7 @@ document.getElementById('wireframe-upload-input').addEventListener('change', e =
         }
       }
       notesTA.value = seed.notes || '';
+      ensureSizeDefaults();
       renderLibrary();
       render();
       showToast('Wireframe loaded!');
@@ -1602,26 +1141,24 @@ apiKeyToggle.addEventListener('click', () => {
 // ============================================================
 //  OPENAI INTEGRATION
 // ============================================================
-let conversationHistory = [];
 let _aiInFlight = false;
-let _wireframeSnapshot = null; // stored separately — never put in conversationHistory
-const chatMessages   = document.getElementById('chat-messages');
-const chatReplyInput = document.getElementById('chat-reply-input');
-const chatReplyBtn   = document.getElementById('chat-reply-btn');
-const chatEmptyHint  = document.getElementById('chat-empty-hint');
+let _wireframeSnapshot = null;
 
 const SYSTEM_PROMPT = `You are a Carbon Design System expert and React developer embedded in a wireframing tool.
 The user has drawn a wireframe. Your primary job is to implement it faithfully as production-ready IBM Carbon + React code.
+
+Always cross-check props and structure against the official Carbon docs (https://carbondesignsystem.com) before finalizing output. When unsure, align with documented patterns.
 
 ━━━ HOW YOU WORK ━━━
 
 The wireframe is your source of truth for layout and components. Read it carefully before responding.
 
-WHAT THE WIREFRAME ALREADY TELLS YOU — do NOT ask about these:
-  • Layout structure (which frames are side-by-side vs. stacked)
-  • Which components to use (SVG labels name them explicitly)
-  • Visual hierarchy (size and position of shapes)
-  • Navigation structure (Header, SideNav, Tabs are named)
+ WHAT THE WIREFRAME ALREADY TELLS YOU — do NOT ask about these:
+ • Layout structure (which frames are side-by-side vs. stacked)
+ • Which components to use (SVG labels name them explicitly)
+ • Visual hierarchy (size and position of shapes)
+ • Navigation structure (Header, SideNav, Tabs are named)
+  • Component multiplicity: every instance on canvas (even if labels repeat) is a separate element you must render. Do NOT merge duplicate labels into one component.
 
 WHAT YOU SHOULD ASK ABOUT — things the wireframe cannot show:
   • Purpose / context: what does this screen do? who uses it?
@@ -1629,13 +1166,43 @@ WHAT YOU SHOULD ASK ABOUT — things the wireframe cannot show:
   • Key interactions: what happens when the user clicks X? does Y open a modal or navigate?
   • States: are there empty states, loading states, or error states to handle?
 
-━━━ CONVERSATION RULES ━━━
+━━━ GENERATION RULES ━━━
 
-1. Look at the wireframe first. Identify every shape and SVG label.
-2. Ask only what you genuinely cannot infer — maximum 2–3 targeted questions, asked once.
-3. After the user answers (or if there's nothing to ask), generate the code immediately.
-4. Do NOT ask permission to start coding. Do NOT summarize before coding. Just build it.
-5. If the user says "just build it" or "go ahead" — generate code right away, no more questions.
+ 1. Look at the wireframe first. Identify every shape and SVG label.
+ 2. Generate the code immediately. Do NOT ask any questions. Do NOT ask for clarification.
+ 3. Make reasonable assumptions for anything not shown (labels, data, copy). State them briefly in a comment at the top of App.jsx.
+ 4. Do NOT ask permission to start coding. Do NOT summarize before coding. Just build it.
+ 5. Instance fidelity: if the component list says “Data table ×2” or the layout shows two tables, render two distinct DataTable components, each in its own container. Buttons, searches, pagination, etc. must also match the counts shown.
+ 6. Sibling layout fidelity: if siblings share a Row Frame, keep them in the same horizontal flex row in code; do NOT move a search bar below tabs if they are siblings.
+  7. Respect containment + order: never relocate a child to a different parent. Within a Row Frame, render children left→right according to their canvas x-position. Within a Column Frame, render top→bottom. Do not float or wrap items to a new line unless the canvas shows a wrap.
+
+━━━ VIEWPORT & LAYOUT — NON-NEGOTIABLE ━━━
+
+Every generated app MUST fill the full browser viewport with no orphaned empty space:
+
+  1. Root & body MUST have: height: 100%; margin: 0; in index.css. Content must visually fill the viewport beneath the header (no dead whitespace).
+  2. Always wrap the app in the Carbon shell:
+       <Header> at the top
+       <Content> fills the remaining height (Carbon handles this automatically via .cds--content)
+       Optionally <SideNav> when the wireframe shows a sidebar
+  3. Inside <Content>, the layout div must stretch:
+       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+  4. Side-by-side panels (Row Frames): use a flex row with flex: 1 on each panel so they
+     share the full width and stretch to the content height. Never use fixed pixel widths for panels.
+  5. DataTables and lists fill their container: use style={{ width: '100%' }} on TableContainer.
+  6. Avoid any layout where more than ~15% of the viewport below the header is empty grey/white.
+  8. If your content height is shorter than the viewport, wrap main content in a flex column with minHeight:'calc(100vh - 48px)' (or equivalent) and give major sections flex:1 so the page stretches to the bottom.
+  7. If there is NO header in the wireframe, still wrap content in a div with
+     style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }} so the page fills the screen.
+
+━━━ DATA DENSITY ━━━
+
+  • Populate every table/list with at minimum 5–8 realistic placeholder rows.
+  • Use meaningful column names and plausible domain-appropriate data — NOT "Row 1", "Item A", "Value".
+  • If the wireframe shows a data table for users → use real-looking names, emails, roles, statuses.
+  • If it shows a product list → use product names, SKUs, prices, quantities.
+  • If it shows a pipeline/job list → use job IDs, stages, timestamps, statuses.
+  • Match the data to what the designer notes suggest; if notes are silent, infer from component names.
 
 ━━━ CARBON DESIGN GUIDELINES ━━━
 
@@ -1752,6 +1319,8 @@ App.jsx — always wrap in Theme:
     </SideNavItems>
   </SideNav>
   <Content>...</Content>
+
+  Only include <Header>/<SideNav> if the canvas actually shows a header/nav. If no header is present, render just a flex column with Content (no default shell).
 
 ── BUTTON ──
 
@@ -1971,7 +1540,7 @@ Rectangle near top = likely Header or Tile. SVG labels identify specific compone
 Always output full file contents with every import. Never abbreviate with "// ... rest of component".
 Output each file as: the filename on its own line (e.g. src/App.jsx), then a fenced code block.
 
-━━━ WIREFRAME FIDELITY — NON-NEGOTIABLE ━━━
+ ━━━ WIREFRAME FIDELITY — NON-NEGOTIABLE ━━━
 
 The first user message will always contain the CURRENT WIREFRAME STATE and a COMPONENT LIST.
 Before writing a single line of code you MUST:
@@ -1984,6 +1553,13 @@ If it shows pagination → generate <Pagination>.
 If it shows tabs → generate <Tabs><TabList><Tab>.
 If it shows a button → generate <Button>.
 Missing even one element from the wireframe is a failure.
+
+━━━ VIEWPORT ENFORCEMENT ━━━
+Your rendered app must eliminate bottom whitespace:
+  • Body/root: height: 100%; min-height: 100vh.
+  • Wrap everything in a flex column that spans the viewport; give the main content flex: 1.
+  • Inside <Content>, top-level layout containers should have style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 48px)' }} (adjust if header present). Child panels in rows get flex: 1.
+  • Tables, tab panels, and grid sections should use style={{ height: '100%', width: '100%' }} when placed inside flex parents so they stretch.
 
 ── SVG name → Carbon component quick-reference ──
   Button / Button + icon      → <Button>
@@ -2021,22 +1597,6 @@ Missing even one element from the wireframe is a failure.
 If a name doesn't match exactly, use the closest Carbon component based on visual context and position.`;
 
 
-
-function buildWireframeSystemMsg() {
-  const layout = buildWireframeContext();
-  const svgNames = [...new Set(
-    elements.filter(e => e.type === 'svg').map(e => e.svgName).filter(Boolean)
-  )];
-  let msg = `CURRENT WIREFRAME STATE (re-read this before writing any code):\n\n${layout}`;
-  if (svgNames.length) {
-    msg += `\n\nCOMPONENT CHECKLIST — every item below MUST be implemented in the generated code. Do not skip any:\n`
-      + svgNames.map(n => `  ☐ ${n}`).join('\n');
-  }
-  const rectCount  = elements.filter(e => e.type === 'frame' || e.type === 'rect' || e.type === 'col-rect').length;
-  const totalCount = elements.length;
-  if (totalCount) msg += `\n\nWireframe totals: ${totalCount} elements, ${svgNames.length} named components, ${rectCount} frames.`;
-  return msg;
-}
 
 // Render all canvas elements to a PNG and return a base64 data URL.
 // This lets GPT-4o *see* the layout directly instead of relying on text.
@@ -2213,6 +1773,11 @@ function buildWireframeContext() {
         layoutHints.push(hint);
       }
 
+      const orderLabel = el.type === 'rect' ? 'left→right' : el.type === 'col-rect' ? 'top→bottom' : (childOrientation === 'row' ? 'left→right (inferred)' : childOrientation === 'col' ? 'top→bottom (inferred)' : null);
+      if (orderLabel) {
+        const names = orderedKids.map(c => c.name || c.svgName || c.type).join('  ·  ');
+        line += `\n${indent}  ↳ Order (${orderLabel}): ${names}`;
+      }
       for (let i = 0; i < orderedKids.length; i++) {
         line += '\n' + describe(orderedKids[i], depth + 1, i, orderedKids.length, el.type, childOrientation);
       }
@@ -2234,76 +1799,6 @@ function buildWireframeContext() {
   return `WIREFRAME LAYOUT (indented = visually inside parent):\n\n${desc}\n${layoutSummary}\nDesigner notes: ${notesTA.value.trim() || '(none)'}`;
 }
 
-function addChatMessage(role, content) {
-  if (chatEmptyHint) chatEmptyHint.style.display = 'none';
-  const wrap = document.createElement('div');
-  wrap.className = 'chat-msg ' + (role === 'user' ? 'user' : 'ai');
-  const label = document.createElement('div');
-  label.className = 'chat-msg-label';
-  label.textContent = role === 'user' ? 'You' : 'AI';
-  const body = document.createElement('div');
-  body.className = 'chat-msg-body';
-  body.textContent = content;
-  wrap.appendChild(label);
-  wrap.appendChild(body);
-  chatMessages.appendChild(wrap);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-  return body;
-}
-
-function addTypingIndicator() {
-  const wrap = document.createElement('div');
-  wrap.className = 'chat-msg ai';
-  wrap.id = 'chat-typing';
-  const label = document.createElement('div');
-  label.className = 'chat-msg-label';
-  label.textContent = 'AI';
-  const body = document.createElement('div');
-  body.className = 'chat-msg-body';
-  body.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
-  wrap.appendChild(label); wrap.appendChild(body);
-  chatMessages.appendChild(wrap);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-  return wrap;
-}
-
-// ============================================================
-//  MARKDOWN RENDERER  (for AI chat bubbles)
-// ============================================================
-function renderMarkdown(raw) {
-  // Escape HTML first so injected content is safe
-  let s = raw
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // Fenced code blocks  → <pre><code>
-  s = s.replace(/```\w*\n?([\s\S]*?)```/g,
-    (_, code) => `<pre><code>${code.trim()}</code></pre>`);
-
-  // Inline code
-  s = s.replace(/`([^`\n]+)`/g, '<code>$1</code>');
-
-  // Bold + italic
-  s = s.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
-  s = s.replace(/\*\*([^*]+)\*\*/g,     '<strong>$1</strong>');
-  s = s.replace(/\*([^*\n]+)\*/g,       '<em>$1</em>');
-
-  // Headings (## and ###) — use inherit so they follow the chat bubble's text colour
-  s = s.replace(/^### (.+)$/gm, '<strong style="font-size:11px">$1</strong>');
-  s = s.replace(/^## (.+)$/gm,  '<strong style="font-size:12px">$1</strong>');
-
-  // Numbered + bullet lists
-  s = s.replace(/^\d+\.\s+(.+)$/gm, '• $1');
-  s = s.replace(/^[-*]\s+(.+)$/gm,  '• $1');
-
-  // Line breaks (but don't double-break after block elements)
-  s = s.replace(/\n/g, '<br>');
-  // Clean up <br> immediately after </pre>
-  s = s.replace(/<\/pre><br>/g, '</pre>');
-
-  return s;
-}
 
 // ============================================================
 //  ZIP WRITER  (no external libs — pure vanilla)
@@ -2487,20 +1982,11 @@ function updateGeneratedFiles(aiText) {
   const parsed = parseCodeFiles(aiText);
   parsed.forEach(({ name, content }) => { generatedFiles[name] = content; });
   const count = Object.keys(generatedFiles).length;
-  const btn    = document.getElementById('download-project-btn');
-  const runBtn = document.getElementById('run-in-browser-btn');
-  if (!count) {
-    btn.disabled = true;  btn.classList.remove('ready');
-    runBtn.disabled = true; runBtn.classList.remove('ready');
-    return;
-  }
-  btn.disabled = false;
-  btn.classList.add('ready');
-  btn.querySelector('.dp-label').textContent = 'Download Project';
-  btn.querySelector('.dp-badge').textContent = count;
-  btn.title = `${count} file${count !== 1 ? 's' : ''} ready`;
-  runBtn.disabled = false;
-  runBtn.classList.add('ready');
+  const btn = document.getElementById('download-code-btn');
+  if (!count) { btn.style.display = 'none'; return; }
+  btn.style.display = 'flex';
+  document.getElementById('download-code-label').textContent = `Download Code`;
+  document.getElementById('download-code-badge').textContent = count;
 }
 
 // ============================================================
@@ -2577,15 +2063,14 @@ Vercel auto-detects Vite — no config needed.
 // ============================================================
 //  DOWNLOAD PROJECT BUTTON
 // ============================================================
-document.getElementById('download-project-btn').addEventListener('click', () => {
+document.getElementById('download-code-btn').addEventListener('click', () => {
   const userFiles = Object.entries(generatedFiles).map(([name, content]) => ({ name, content }));
   if (!userFiles.length) return;
 
-  // Merge with boilerplate — user AI files take priority
-  const has    = name => generatedFiles[name] !== undefined;
+  // Merge with boilerplate — AI-generated files take priority
   const merged = [...userFiles];
   for (const [name, content] of Object.entries(_BP)) {
-    if (!has(name)) merged.push({ name, content });
+    if (generatedFiles[name] === undefined) merged.push({ name, content });
   }
 
   const zip  = createZip(merged);
@@ -2601,56 +2086,43 @@ document.getElementById('download-project-btn').addEventListener('click', () => 
   showToast(`Downloaded ${merged.length} files!`);
 });
 
+function setSendBtnLoading(loading) {
+  const btn     = document.getElementById('wf-send-btn');
+  const icon    = document.getElementById('wf-send-icon');
+  const spinner = document.getElementById('wf-send-spinner');
+  const label   = document.getElementById('wf-send-label');
+  btn.disabled        = loading;
+  icon.style.display    = loading ? 'none'  : 'block';
+  spinner.style.display = loading ? 'block' : 'none';
+  label.textContent     = loading ? 'Generating…' : 'Generate';
+}
+
 async function sendToOpenAI(userMessage) {
-  if (_aiInFlight) return; // prevent concurrent requests
+  if (_aiInFlight) return;
   const key = apiKeyInput.value.trim();
   if (!key) {
-    switchToTab('chat');
     apiKeyStatus.textContent = 'Paste your API key first'; apiKeyStatus.className = 'err'; return;
   }
   _aiInFlight = true;
-
-  switchToTab('chat');
-
-  // History always stores plain text — no base64 blobs
-  addChatMessage('user', userMessage);
-  conversationHistory.push({ role: 'user', content: userMessage });
-
-  // Lock inputs
-  document.getElementById('wf-send-btn').disabled = true;
-  chatReplyBtn.disabled = true;
-
-  const typingEl = addTypingIndicator();
+  setSendBtnLoading(true);
 
   let fullResponse = '';
 
   try {
+    const messages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      _wireframeSnapshot
+        ? { role: 'user', content: [
+            { type: 'text', text: userMessage },
+            { type: 'image_url', image_url: { url: _wireframeSnapshot, detail: 'low' } }
+          ]}
+        : { role: 'user', content: userMessage }
+    ];
+
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + key,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        stream: true,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          // Inject snapshot into first user message at call time — never stored in history
-          ...conversationHistory.map((msg, i) => {
-            if (i === 0 && msg.role === 'user' && _wireframeSnapshot) {
-              return {
-                role: 'user',
-                content: [
-                  { type: 'text', text: msg.content },
-                  { type: 'image_url', image_url: { url: _wireframeSnapshot, detail: 'low' } }
-                ]
-              };
-            }
-            return msg;
-          }),
-        ],
-      }),
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+      body: JSON.stringify({ model: 'gpt-4o', stream: true, messages }),
     });
 
     if (!res.ok) {
@@ -2658,11 +2130,6 @@ async function sendToOpenAI(userMessage) {
       throw new Error(err.error?.message || `HTTP ${res.status}`);
     }
 
-    // Remove typing indicator, create streaming bubble
-    typingEl.remove();
-    const aiBody = addChatMessage('ai', '');
-
-    // Stream the response
     const reader  = res.body.getReader();
     const decoder = new TextDecoder();
     let   buffer  = '';
@@ -2680,122 +2147,59 @@ async function sendToOpenAI(userMessage) {
         if (data === '[DONE]') { streamDone = true; break; }
         try {
           const delta = JSON.parse(data).choices?.[0]?.delta?.content;
-          if (delta) { fullResponse += delta; aiBody.textContent = fullResponse; chatMessages.scrollTop = chatMessages.scrollHeight; }
+          if (delta) fullResponse += delta;
         } catch { /* skip malformed */ }
       }
     }
 
-    conversationHistory.push({ role: 'assistant', content: fullResponse });
-
-    // Render markdown + detect any generated code files
-    aiBody.innerHTML = renderMarkdown(fullResponse);
-    aiBody.classList.add('rendered');
     updateGeneratedFiles(fullResponse);
-
-    chatReplyBtn.disabled = false;
-    chatReplyInput.focus();
+    const count = Object.keys(generatedFiles).length;
+    if (count) {
+      showToast(`${count} file${count !== 1 ? 's' : ''} ready — click Download Code`);
+    } else {
+      showToast('Done — no code files detected in response');
+    }
     apiKeyStatus.textContent = ''; apiKeyStatus.className = '';
 
   } catch (err) {
-    if (typingEl.isConnected) typingEl.remove();
-    addChatMessage('ai', '⚠ ' + err.message);
+    showToast('Error: ' + err.message);
     apiKeyStatus.textContent = err.message; apiKeyStatus.className = 'err';
   } finally {
     _aiInFlight = false;
-    document.getElementById('wf-send-btn').disabled = false;
-    chatReplyBtn.disabled = conversationHistory.length === 0;
+    setSendBtnLoading(false);
   }
 }
 
-// "Send to AI" button in Wireframe tab
+// "Generate" button
 document.getElementById('wf-send-btn').addEventListener('click', () => {
   if (elements.length === 0) { showToast('Draw something on the canvas first'); return; }
 
-  // Reset conversation and generated files for the new wireframe
-  conversationHistory = [];
   generatedFiles = {};
   _wireframeSnapshot = null;
-  const dlBtn  = document.getElementById('download-project-btn');
-  const runBtn = document.getElementById('run-in-browser-btn');
-  dlBtn.disabled  = true;  dlBtn.classList.remove('ready');
-  runBtn.disabled = true;  runBtn.classList.remove('ready');
+  document.getElementById('download-code-btn').style.display = 'none';
 
   const wfText = buildWireframeContext();
-  _wireframeSnapshot = buildWireframeSnapshot(); // stored separately, NOT in history
+  _wireframeSnapshot = buildWireframeSnapshot();
   const notes  = notesTA.value.trim();
 
-  const svgNames = [...new Set(
-    elements.filter(e => e.type === 'svg').map(e => e.svgName).filter(Boolean)
-  )];
-  const componentList = svgNames.length
-    ? `\n\nComponents on the canvas (ALL must appear in the generated code):\n${svgNames.map(n => `• ${n}`).join('\n')}`
+  const svgCounts = elements
+    .filter(e => e.type === 'svg')
+    .reduce((acc, el) => {
+      const key = el.svgName || 'SVG';
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+  const componentList = Object.keys(svgCounts).length
+    ? `\n\nComponents on the canvas (ALL instances must appear in the generated code):\n${Object.entries(svgCounts).map(([name, count]) => `• ${name} ×${count}`).join('\n')}`
     : '';
+  const notesBlock = notes ? `\n\nDesigner notes:\n${notes}` : '';
 
-  const notesBlock = notes ? `\n\nMy notes:\n${notes}` : '';
+  const prompt =
+    `Here is my wireframe. The attached image is the primary source of truth for layout.\n\n` +
+    `Text description:\n${wfText}${componentList}${notesBlock}\n\n` +
+    `Generate the full Carbon Design System React code now. No questions — make reasonable assumptions.`;
 
-  const intro =
-    `Here is my wireframe. An image is attached — treat it as the primary source of truth for layout and structure.\n\n` +
-    `Text description (component names and nesting):\n${wfText}${componentList}${notesBlock}\n\n` +
-    `Look at the image, identify every shape and component, then ask me only what you cannot infer (purpose, data, key interactions). Max 2–3 questions.`;
-
-  // History stores TEXT ONLY — image is injected at API call time, never stored in history
-  sendToOpenAI(intro);
-});
-
-// ============================================================
-//  RUN IN BROWSER  (StackBlitz form POST → preview iframe)
-// ============================================================
-function runInBrowser() {
-  if (!Object.keys(generatedFiles).length) { showToast('Generate code with AI first'); return; }
-
-  const allFiles = { ..._BP };
-  Object.entries(generatedFiles).forEach(([k, v]) => { allFiles[k] = v; });
-
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://stackblitz.com/run';
-  form.target = 'preview-iframe';
-  form.style.display = 'none';
-
-  const add = (n, v) => {
-    const inp = document.createElement('input');
-    inp.type = 'hidden'; inp.name = n; inp.value = v;
-    form.appendChild(inp);
-  };
-
-  add('project[title]', 'Wireframe Preview');
-  add('project[description]', 'Generated from Carbon Design System wireframe tool');
-  add('project[template]', 'node');
-  for (const [path, content] of Object.entries(allFiles)) {
-    add(`project[files][${path}]`, content);
-  }
-
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-
-  switchToTab('preview');
-  showToast('Booting in StackBlitz — takes ~20s');
-}
-
-document.getElementById('run-in-browser-btn').addEventListener('click', runInBrowser);
-
-// Follow-up replies
-chatReplyBtn.addEventListener('click', sendReply);
-chatReplyInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendReply(); }
-});
-function sendReply() {
-  const msg = chatReplyInput.value.trim();
-  if (!msg || chatReplyBtn.disabled) return;
-  chatReplyInput.value = '';
-  sendToOpenAI(msg);
-}
-
-// Auto-resize reply textarea
-chatReplyInput.addEventListener('input', () => {
-  chatReplyInput.style.height = 'auto';
-  chatReplyInput.style.height = Math.min(chatReplyInput.scrollHeight, 80) + 'px';
+  sendToOpenAI(prompt);
 });
 
 // ============================================================
@@ -2851,6 +2255,8 @@ if (window.__WIREFRAME_SEED__) {
     const n = parseInt((item.id || '').replace(/^\D+/, ''), 10);
     if (n > idCounter) idCounter = n;
   });
+
+  ensureSizeDefaults();
 
   // Restore _typeCounts from saved element names
   for (const el of elements) {

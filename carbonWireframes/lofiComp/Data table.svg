@@ -1,0 +1,53 @@
+<svg width="600" height="389" viewBox="0 0 600 389" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="600" height="388.504" fill="#F4F4F4"/>
+<g clip-path="url(#clip0_323_27378)">
+<mask id="path-1-inside-1_323_27378" fill="white">
+<path d="M0 352.005H600V388.505H0V352.005Z"/>
+</mask>
+<path d="M0 352.005H600V388.505H0V352.005Z" fill="#F4F4F4"/>
+<rect width="576" height="14" transform="translate(12 363.255)" fill="#EBEBEB"/>
+</g>
+<path d="M0 352.005V352.755H600V352.005V351.255H0V352.005Z" fill="#C6C6C6" mask="url(#path-1-inside-1_323_27378)"/>
+<rect width="600" height="242.5" transform="translate(0 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect y="110.836" width="600" height="0.75" fill="#C6C6C6"/>
+<rect width="75" height="242.5" transform="translate(0 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(12 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(75 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(87 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(150 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(162 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(225 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(237 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(300 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(312 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(375 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(387 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(450 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(462 122.836)" fill="#EBEBEB"/>
+<rect width="75" height="242.5" transform="translate(525 110.836)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="208" transform="translate(537 122.836)" fill="#EBEBEB"/>
+<rect width="600" height="48.5" transform="translate(0 63.6682)" fill="#E0E0E0"/>
+<rect width="75" height="48.5008" transform="translate(0 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(12 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(75 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(87 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(150 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(162 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(225 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(237 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(300 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(312 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(375 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(387 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(450 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(462 75.6678)" fill="#D2D2D2"/>
+<rect width="75" height="48.5008" transform="translate(525 63.6678)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="51" height="14" transform="translate(537 75.6678)" fill="#D2D2D2"/>
+<rect width="40" height="21" transform="translate(12 12)" fill="#D2D2D2"/>
+<rect width="72" height="14" transform="translate(12 33)" fill="#EBEBEB"/>
+<defs>
+<clipPath id="clip0_323_27378">
+<path d="M0 352.005H600V388.505H0V352.005Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>
