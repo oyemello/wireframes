@@ -1,0 +1,35 @@
+@import '@carbon/styles/css/styles.css';
+
+/* Viewport Fit & Global Overrides */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Page handles its own scrolling */
+}
+
+body {
+  background-color: var(--cds-background, #161616);
+  color: var(--cds-text-primary, #f4f4f4);
+}
+
+/* Master Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Figma 32px Padding Enforcement */
+.mcp-frame {
+  padding: 32px;
+}

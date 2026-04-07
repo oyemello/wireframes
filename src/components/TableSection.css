@@ -1,0 +1,43 @@
+.table-section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--cds-layer-01, #262626);
+  border-radius: 4px;
+  height: 100%;
+  min-width: 0;
+  flex: 1;
+  padding: 32px; /* Figma viaMCP Standard */
+}
+
+.table-header-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.table-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background-color: var(--cds-layer-02, #393939);
+  padding: 8px 16px;
+  margin-bottom: 8px;
+}
+
+.table-data-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.table-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--cds-border-subtle, #393939);
+}
+
+.append-remove-btns {
+  display: flex;
+  gap: 8px;
+}

@@ -1,0 +1,30 @@
+================================================
+           WIREFRAME GENERATION BILL (viaMCP)
+================================================
+Date: 4/7/2026, 3:18:00 AM
+Model: GPT-4o
+------------------------------------------------
+TOKEN USAGE (ESTIMATED)
+  Prompt (Input):           12,500
+  Completion (Output):      4,000
+  Total Tokens:             16,500
+------------------------------------------------
+COST CALCULATION (USD)
+  Input Cost:               $0.0313
+  Output Cost:              $0.0400
+  TOTAL COST:               $0.0713
+------------------------------------------------
+COMPONENT BREAKDOWN
+  Total Components:         22
+  Average Cost/Comp:        $0.0032
+
+DETAILS:
+  Tabs (1)                  $0.0032
+  DataTable (2)             $0.0064
+  Button (6)                $0.0192
+  Search (1)                $0.0032
+  Pagination (2)            $0.0064
+  Frame (10)                $0.0320
+------------------------------------------------
+Thank you for using the viaMCP Designer-to-Code Tool!
+================================================
