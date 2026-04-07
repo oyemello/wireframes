@@ -397,24 +397,26 @@ WHAT YOU SHOULD ASK ABOUT — things the wireframe cannot show:
 
 ━━━ VIEWPORT & LAYOUT — NON-NEGOTIABLE ━━━
 
-Every generated app MUST fill the full browser viewport with no orphaned empty space:
+ Every generated app MUST fill the full browser viewport with no orphaned empty space.
+   - The outermost frame MUST fit the viewport (width: 100vw, min-height: 100vh) without internal or external horizontal scrolling.
+   - Root & body MUST have: height: 100%; margin: 0; in index.css. Content must visually fill the viewport beneath the header (no dead whitespace).
 
-  1. Root & body MUST have: height: 100%; margin: 0; in index.css. Content must visually fill the viewport beneath the header (no dead whitespace).
-  2. Always wrap the app in the Carbon shell:
-       <Header> at the top
-       <Content> fills the remaining height (Carbon handles this automatically via .cds--content)
-       Optionally <SideNav> when the wireframe shows a sidebar
-  3. Inside <Content>, the layout div must stretch:
-       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-4. Side-by-side panels (Row Frames): use a flex row with flex: 1 on each panel so they
-    share the full width and stretch to the content height. Never use fixed pixel widths for panels.
-5. DataTables and lists fill their container: use style={{ width: '100%' }} on TableContainer.
-6. Avoid any layout where more than ~15% of the viewport below the header is empty grey/white.
-8. If your content height is shorter than the viewport, wrap main content in a flex column with minHeight:'calc(100vh - 48px)' (or equivalent) and give major sections flex:1 so the page stretches to the bottom.
-9. Row Frames must render as `display:flex; gap:16px; align-items:stretch;` with each child `flex:1` unless the canvas shows a narrow rail. Align top edges and keep equal heights when siblings are peers.
-10. Buttons/tags/icon buttons are hug-content by default (natural width). In toolbars, keep them inline with inputs, vertically centered, and do not stretch them to fill a column.
-  7. If there is NO header in the wireframe, still wrap content in a div with
-     style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }} so the page fills the screen.
+   1. Always wrap the app in the Carbon shell:
+        <Header> at the top
+        <Content> fills the remaining height (Carbon handles this automatically via .cds--content)
+        Optionally <SideNav> when the wireframe shows a sidebar
+   2. Inside <Content>, the layout div must stretch:
+        style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+ 3. Side-by-side panels (Row Frames): use a flex row with flex: 1 on each panel so they
+     share the full width and stretch to the content height. Never use fixed pixel widths for panels.
+ 4. DataTables and lists fill their container: use style={{ width: '100%' }} on TableContainer.
+ 5. Avoid any layout where more than ~15% of the viewport below the header is empty grey/white.
+ 6. If your content height is shorter than the viewport, wrap main content in a flex column with minHeight:'calc(100vh - 48px)' (or equivalent) and give major sections flex:1 so the page stretches to the bottom.
+ 7. Row Frames must render as `display:flex; gap:16px; align-items:stretch;` with each child `flex:1` unless the canvas shows a narrow rail. Align top edges and keep equal heights when siblings are peers.
+ 8. Frame Padding: Any frame nested inside the outermost frame must have a default padding of 32px all around for clear component separation and breathing room.
+ 9. Buttons/tags/icon buttons are hug-content by default (natural width). In toolbars, keep them inline with inputs, vertically centered, and do not stretch them to fill a column.
+ 10. If there is NO header in the wireframe, still wrap content in a div with
+      style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }} so the page fills the screen.
 
 ━━━ DATA DENSITY ━━━
 
@@ -776,9 +778,11 @@ If it shows a button → generate <Button>.
 Missing even one element from the wireframe is a failure.
 
 ━━━ VIEWPORT ENFORCEMENT ━━━
-Your rendered app must eliminate bottom whitespace:
-  • Body/root: height: 100%; min-height: 100vh.
+Your rendered app must eliminate bottom whitespace and fit the screen perfectly:
+  • The outermost frame MUST be fixed to the viewport: width: 100vw, min-height: 100vh.
+  • Body/root in index.css: height: 100%; margin: 0; padding: 0.
   • Wrap everything in a flex column that spans the viewport; give the main content flex: 1.
+  • All frames inside the outermost frame MUST have 32px padding on all sides by default.
   • Inside <Content>, top-level layout containers should have style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 48px)' }} (adjust if header present). Child panels in rows get flex: 1.
   • Tables, tab panels, and grid sections should use style={{ height: '100%', width: '100%' }} when placed inside flex parents so they stretch.
   • Maintain consistent gutters: use 16px gap for peer items in a row; align their top edges and match heights.
@@ -1602,6 +1606,7 @@ apiKeyToggle.addEventListener('click', () => {
 // ============================================================
 let _aiInFlight = false;
 let _wireframeSnapshot = null;
+let _lastUsage = null;
 
 const SYSTEM_PROMPT = document.getElementById('system-prompt').textContent.trim();
 
@@ -2072,6 +2077,78 @@ Vercel auto-detects Vite — no config needed.
 // ============================================================
 //  DOWNLOAD PROJECT BUTTON
 // ============================================================
+function generateBillText(usage) {
+  if (!usage) return null;
+  
+  // GPT-4o Pricing (per 1M tokens)
+  const P_IN  = 2.50; 
+  const P_OUT = 10.00;
+  
+  const inTokens  = usage.prompt_tokens || 0;
+  const outTokens = usage.completion_tokens || 0;
+  const totalTokens = usage.total_tokens || 0;
+  
+  const inCost  = (inTokens / 1000000) * P_IN;
+  const outCost = (outTokens / 1000000) * P_OUT;
+  const totalCost = inCost + outCost;
+
+  // Categorize components
+  const counts = {};
+  for (const el of elements) {
+    let type = el.type;
+    if (type === 'svg')      type = el.svgName || 'Icon';
+    else if (type === 'rect')      type = 'Row Frame';
+    else if (type === 'col-rect') type = 'Column Frame';
+    else if (type === 'frame')    type = 'Frame';
+    else type = type.charAt(0).toUpperCase() + type.slice(1);
+    
+    counts[type] = (counts[type] || 0) + 1;
+  }
+  
+  const componentCount = elements.length;
+  const costPerComp = componentCount > 0 ? totalCost / componentCount : 0;
+
+  // Build the breakdown string
+  const breakdownRows = Object.entries(counts)
+    .sort((a,b) => b[1] - a[1])
+    .map(([name, count]) => {
+      const cost = count * costPerComp;
+      const label = `${name} (${count})`;
+      return `  ${label.padEnd(25)} $${cost.toFixed(4)}`;
+    })
+    .join('\n');
+
+  const date = new Date().toLocaleString();
+  
+  let bill = `================================================
+           WIREFRAME GENERATION BILL
+================================================
+Date: ${date}
+Model: GPT-4o
+------------------------------------------------
+TOKEN USAGE
+  Prompt (Input):           ${inTokens.toLocaleString()}
+  Completion (Output):      ${outTokens.toLocaleString()}
+  Total Tokens:             ${totalTokens.toLocaleString()}
+------------------------------------------------
+COST CALCULATION (USD)
+  Input Cost:               $${inCost.toFixed(4)}
+  Output Cost:              $${outCost.toFixed(4)}
+  TOTAL COST:               $${totalCost.toFixed(4)}
+------------------------------------------------
+COMPONENT BREAKDOWN
+  Total Components:         ${componentCount}
+  Average Cost/Comp:        $${costPerComp.toFixed(4)}
+
+DETAILS:
+${breakdownRows}
+------------------------------------------------
+Thank you for using the Wireframe DS Tool!
+================================================
+`;
+  return bill;
+}
+
 document.getElementById('download-code-btn').addEventListener('click', () => {
   const userFiles = Object.entries(generatedFiles).map(([name, content]) => ({ name, content }));
   if (!userFiles.length) return;
@@ -2080,6 +2157,12 @@ document.getElementById('download-code-btn').addEventListener('click', () => {
   const merged = [...userFiles];
   for (const [name, content] of Object.entries(_BP)) {
     if (generatedFiles[name] === undefined) merged.push({ name, content });
+  }
+
+  // Add bill.txt if usage data is available
+  const billText = generateBillText(_lastUsage);
+  if (billText) {
+    merged.push({ name: 'bill.txt', content: billText });
   }
 
   const zip  = createZip(merged);
@@ -2131,7 +2214,13 @@ async function sendToOpenAI(userMessage) {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-      body: JSON.stringify({ model: 'gpt-4o', stream: true, temperature: 0, messages }),
+      body: JSON.stringify({ 
+        model: 'gpt-4o', 
+        stream: true, 
+        stream_options: { include_usage: true },
+        temperature: 0, 
+        messages 
+      }),
     });
 
     if (!res.ok) {
@@ -2143,6 +2232,7 @@ async function sendToOpenAI(userMessage) {
     const decoder = new TextDecoder();
     let   buffer  = '';
     let   streamDone = false;
+    _lastUsage = null;
 
     while (!streamDone) {
       const { done, value } = await reader.read();
@@ -2155,8 +2245,13 @@ async function sendToOpenAI(userMessage) {
         const data = line.slice(6).trim();
         if (data === '[DONE]') { streamDone = true; break; }
         try {
-          const delta = JSON.parse(data).choices?.[0]?.delta?.content;
+          const json = JSON.parse(data);
+          const delta = json.choices?.[0]?.delta?.content;
           if (delta) fullResponse += delta;
+          
+          if (json.usage) {
+            _lastUsage = json.usage;
+          }
         } catch { /* skip malformed */ }
       }
     }
